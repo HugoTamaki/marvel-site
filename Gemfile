@@ -15,6 +15,7 @@ gem 'redis', '~> 4.0'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'dotenv-rails'
+gem 'kaminari'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
