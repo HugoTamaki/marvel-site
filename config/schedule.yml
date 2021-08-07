@@ -1,3 +1,4 @@
 midnight_job:
-  cron: "0 0 * * *"
-  class: "CronJob"
+  # cron: "0 0 * * *"
+  cron: "* * * * *"
+  class: "MidnightJob"
