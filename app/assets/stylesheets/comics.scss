@@ -1,0 +1,38 @@
+.comics {
+  margin-top: 150px;
+
+  .comic-row {
+    margin: 10px 0;
+    .col-lg-2{
+      .thumb {
+        width: 100%;
+      }
+      &.col-half-offset{
+        margin-left:4.166666667%
+      }
+    }
+  }
+
+  .next-prev-container {
+    margin: 30px 0;
+
+    .next {
+      float: right;
+    }
+
+    .prev {
+      float: left;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: #FFF;
+      color: #DA1621;
+      text-decoration: none;
+      padding: 10px;
+      &::visited {
+        color: #DA1621;
+      }
+    }
+  }
+}

@@ -3,5 +3,4 @@ FactoryBot.define do
     comic_id { 1 }
     character_id { 1 }
   end
-
 end

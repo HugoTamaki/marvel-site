@@ -45,6 +45,8 @@ RSpec.configure do |config|
     c.default_cassette_options = { decode_compressed_response: true }
   end
 
+  config.include FactoryBot::Syntax::Methods
+
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
 

@@ -12,6 +12,7 @@ class MarvelApiService
           comic.description = comic_hash.dig('description')
           comic.comic_url = comic_hash.dig('urls')&.first&.dig('url')
           comic.thumbnail = image_path(comic_hash.dig('thumbnail'))
+          comic.sold_at = sold_at_date(comic_hash)
           comic.save if comic.new_record? || comic.changed?
 
           characters = comic_hash.dig('characters', 'items')
@@ -47,6 +48,15 @@ class MarvelApiService
 
     def image_path(hash)
       "#{hash.dig('path')}.#{hash.dig('extension')}"
+    end
+
+    def sold_at_date(hash)
+      date = (hash.dig('dates') || []).find { |date| date.dig('type') == 'onsaleDate' }&.dig('date')
+      return nil if date.nil?
+
+      DateTime.parse(date)
+    rescue
+      nil
     end
 
     def api_credentials
