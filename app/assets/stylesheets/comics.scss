@@ -3,13 +3,24 @@
 
   .comic-row {
     margin: 10px 0;
-    .col-lg-2{
-      .thumb {
-        width: 100%;
+    .comic-cell {
+      .image-container {
+        position: relative;
+
+        .heart {
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
+
+        .thumb {
+          width: 100%;
+        }
       }
       &.col-half-offset{
         margin-left:4.166666667%
       }
+
     }
   }
 

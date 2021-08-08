@@ -50,6 +50,42 @@ describe 'Comics', :type => :request do
         expect(response.body).not_to match('Wolverine')
       end
     end
+  end
 
+  describe 'POST #favourite_comic' do
+    let!(:comic) { FactoryBot.create(:comic) }
+
+    it 'favourites one comic to current_user' do
+      headers = { "ACCEPT" => "application/json" }
+      post '/comics/favourite_comic.json', params: { comic_id: comic.comic_id }, headers: headers
+
+      user = User.first
+      expect(comic).to be_in(user.comics)
+    end
+
+    it 'returns error on comic not found' do
+      headers = { "ACCEPT" => "application/json" }
+      post '/comics/favourite_comic.json', params: { comic_id: 121892 }, headers: headers
+
+      expect(response.status).to eql(400)
+      expect(response.body).to eql({'message' => 'Comic not found'}.to_json)
+    end
+
+    context 'removing existing favourite' do
+      before do
+        headers = { "ACCEPT" => "application/json" }
+        post '/comics/favourite_comic.json', params: { comic_id: comic.comic_id }, headers: headers
+      end
+
+      it 'removes favourite from user' do
+        user = User.first
+        expect(comic).to be_in(user.comics)
+
+        headers = { "ACCEPT" => "application/json" }
+        post '/comics/favourite_comic.json', params: { comic_id: comic.comic_id }, headers: headers
+
+        expect(user.comics).to be_empty
+      end
+    end
   end
 end

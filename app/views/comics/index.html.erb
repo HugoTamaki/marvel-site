@@ -2,10 +2,13 @@
     <% @comics.each_slice(5) do |comics| %>
       <div class="row comic-row">
         <% comics.each_with_index do |comic, index| %>
-          <div class="col-lg-2 <%= 'col-half-offset' if index > 0 %>">
-            <%= link_to comic.comic_url do %>
+          <div class="comic-cell col-lg-2 <%= 'col-half-offset' if index > 0 %>">
+            <div class="image-container">
+              <a href="#">
+                <%= image_tag(set_favourite_image_by_user(current_user, comic.comic_id), class: 'heart', alt: 'favourite') %>
+              </a>
               <%= image_tag(comic.thumbnail, class: 'thumb', alt: comic.title) %>
-            <% end %>
+            </div>
           </div>
         <% end %>
       </div>
