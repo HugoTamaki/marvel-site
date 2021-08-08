@@ -6,9 +6,7 @@ describe MarvelApiService do
   end
 
   describe '.api_credentials' do
-
     it 'generates api credencials for url' do
-      timestamp = Time.now.to_i
       expect(MarvelApiService.api_credentials).to eql("&apikey=abcd&ts=1628337900&hash=e2e4d69c10436a7cc7183b90fcda9da7")
     end
   end

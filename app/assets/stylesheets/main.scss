@@ -1,0 +1,18 @@
+body {
+  background-color: #202020 !important;
+}
+
+.navbar {
+  background-color: #DA1621;
+  min-height: 150px;
+
+  .logo-container {
+    display: block;
+    width:  100%;
+    text-align:  center;
+  }
+
+  .form-container {
+    margin: 0 auto;
+  }
+}

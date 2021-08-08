@@ -14,13 +14,7 @@
   </head>
 
   <body>
-    <nav class="navbar fixed-top navbar-expand-lg">
-      <%= image_tag('marvel_logo.png', class: 'logo') %>
-
-      <%= form_tag comics_path, :method => "get" do %>
-        <%= text_field_tag :search, params[:search], placeholder: 'Search'%>
-      <% end %>
-    </nav>
+    <%= render 'shared/header' %>
     <%= yield %>
   </body>
 </html>

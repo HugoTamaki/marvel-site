@@ -1,0 +1,13 @@
+<div class="container">
+  <nav class="navbar fixed-top">
+    <div class="logo-container">
+      <%= image_tag('marvel_logo.png', class: 'logo') %>
+    </div>
+
+    <div class="form-container">
+      <%= form_tag comics_path, :method => "get" do %>
+        <%= text_field_tag :search, params[:search], class: 'search-input', placeholder: 'Search'%>
+      <% end %>
+    </div>
+  </nav>
+</div>
