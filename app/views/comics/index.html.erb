@@ -1,22 +1,24 @@
+<%= image_tag('heart_on.png', id: 'heart-on-src', style: 'display: none;') %>
+<%= image_tag('heart_off.png', id: 'heart-off-src', style: 'display: none;') %>
+
 <div class="container comics">
-    <% @comics.each_slice(5) do |comics| %>
-      <div class="row comic-row">
-        <% comics.each_with_index do |comic, index| %>
-          <div class="comic-cell col-lg-2 <%= 'col-half-offset' if index > 0 %>">
-            <div class="image-container">
-              <a href="#">
-                <%= image_tag(set_favourite_image_by_user(current_user, comic.comic_id), class: 'heart', alt: 'favourite') %>
-              </a>
-              <%= image_tag(comic.thumbnail, class: 'thumb', alt: comic.title) %>
-            </div>
+  <% @comics.each_slice(5) do |comics| %>
+    <div class="row comic-row">
+      <% comics.each_with_index do |comic, index| %>
+        <div class="comic-cell col-lg-2 <%= 'col-half-offset' if index > 0 %>">
+          <div class="image-container">
+            <%= link_to 'javascript:;', class: 'favourite-img', data: { comic_id: comic.comic_id } do %>
+              <%= image_tag(set_favourite_image_by_user(current_user, comic.comic_id), class: 'heart', alt: 'favourite') %>
+            <% end %>
+            <%= image_tag(comic.thumbnail, class: 'thumb', alt: comic.title) %>
           </div>
-        <% end %>
-      </div>
-    <% end %>
-    <div class="next-prev-container">
-      <%= link_to_previous_page @comics, 'Previous Page', class: 'prev button' %>
-      <%= link_to_next_page @comics, 'Next Page', class: 'next button' %>
+        </div>
+      <% end %>
     </div>
+  <% end %>
+  <div class="next-prev-container">
+    <%= link_to_previous_page @comics, 'Previous Page', class: 'prev button' %>
+    <%= link_to_next_page @comics, 'Next Page', class: 'next button' %>
   </div>
 </div>
 
