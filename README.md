@@ -1,24 +1,51 @@
-# README
+# Marvel Site
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Test based on Marvel API
 
-Things you may want to cover:
+## To run at development environment
 
-* Ruby version
+Create a database.yml file at `config/` based on database.yml.example
 
-* System dependencies
+This application uses:
 
-* Configuration
+- PostgreSQL
+- Redis
+- Yarn
 
-* Database creation
+To install ruby gems
 
-* Database initialization
+```
+bundle install
+```
 
-* How to run the test suite
+To create the database, run:
+```
+rake db:create
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+To run the migrations:
+```
+rake db:migrate
+```
 
-* Deployment instructions
+You must set some environment variables before running the application or some routines.
 
-* ...
+Set `MARVEL_PUBLIC_KEY` and `MARVEL_PRIVATE_KEY` values at `.env` or create a `.env.local` file and set the values there.
+
+To run the application you must have `redis` running.
+
+The application also runs some jobs at background. You must have `sidekiq` running too.
+
+Or if you want to run the jobs instantly:
+
+- Run `rake routines:import_comics` to access Marvel API and import comics (or generate some data through `rake db:seed`)
+- Run `rake routines:clean_users` to clean expired users
+
+
+Run `rails s` and access `localhost:3000`
+
+This project uses rspec for tests. To run tests, run the command:
+
+```
+rspec spec
+```
