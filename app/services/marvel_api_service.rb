@@ -1,12 +1,13 @@
 class MarvelApiService
   OFFSET_NUMBER = 100
+  LIMIT = 100
 
   class << self
-    def update_comics
+    def update_comics(date = nil)
       offset = 0
 
       loop do
-        result = fetch_comics(offset)
+        result = fetch_comics(offset, date)
 
         break if result.empty?
 
@@ -17,6 +18,7 @@ class MarvelApiService
           comic.comic_url = comic_hash.dig('urls')&.first&.dig('url')
           comic.thumbnail = image_path(comic_hash.dig('thumbnail'))
           comic.sold_at = sold_at_date(comic_hash)
+          comic.modified_at = DateTime.parse(comic_hash.dig('modified'))
           comic.save if comic.new_record? || comic.changed?
 
           characters = comic_hash.dig('characters', 'items') || []
@@ -32,15 +34,19 @@ class MarvelApiService
       { error: 'JSON parse error' }
     end
 
-    def fetch_comics(offset = 0)
-      response = Net::HTTP.get(URI.parse(self.url(offset)))
+    def fetch_comics(offset = 0, date = nil)
+      response = Net::HTTP.get(URI.parse(self.url(offset, date)))
       parsed_response = JSON.parse(response || '{}')
       @total = parsed_response&.dig('data', 'total')
       parsed_response&.dig('data', 'results')
     end
 
-    def url(offset = 0, limit = 100)
-      "#{ENV['MARVEL_API_URL']}/comics?offset=#{offset}&limit=#{limit}#{api_credentials}"
+    def url(offset = 0, date)
+      request_url = "#{ENV['MARVEL_API_URL']}/comics?offset=#{offset}&limit=#{LIMIT}"
+      request_url << "&modifiedSince=#{date}" if date.present?
+      request_url << api_credentials
+
+      request_url
     end
 
     def image_path(hash)
