@@ -1,15 +1,16 @@
 class MarvelApiService
-  INFINITY = 1.0/0
   OFFSET_NUMBER = 100
 
   class << self
     def update_comics
-      CharacterComic
-      @total = INFINITY
       offset = 0
-      comics_count = OFFSET_NUMBER
-      while comics_count <= @total
-        fetch_comics(offset).each do |comic_hash|
+
+      loop do
+        result = fetch_comics(offset)
+
+        break if result.empty?
+
+        result.each do |comic_hash|
           comic = Comic.find_or_initialize_by(comic_id: comic_hash.dig('id'))
           comic.title = comic_hash.dig('title')
           comic.description = comic_hash.dig('description')
@@ -25,14 +26,7 @@ class MarvelApiService
             comic.characters << character unless comic.characters.any? { |c| c.name == character.name }
           end
         end
-
-        if comics_count > (@total / OFFSET_NUMBER) * OFFSET_NUMBER
-          offset += @total % OFFSET_NUMBER
-          comics_count += @total % OFFSET_NUMBER
-        else
-          offset += OFFSET_NUMBER
-          comics_count += OFFSET_NUMBER
-        end
+        offset += OFFSET_NUMBER
       end
     rescue JSON::ParserError
       { error: 'JSON parse error' }
