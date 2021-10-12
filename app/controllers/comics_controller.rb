@@ -8,7 +8,7 @@ class ComicsController < ApplicationController
 
   def favourite_comic
     comic = Comic.find_by(comic_id: comic_params[:comic_id])
-    raise 'Comic not found' if comic.nil?
+    render json: { message: 'Comic not found' }, status: :not_found and return if comic.nil?
 
     if favourite_comic = current_user.favourites.find_by(comic_id: comic.id)
       favourite_comic.destroy
@@ -19,8 +19,6 @@ class ComicsController < ApplicationController
     end
 
     render json: { message: message }, status: :ok
-  rescue StandardError => e
-    render json: { message: e }, status: :bad_request
   end
 
   def comic_params
