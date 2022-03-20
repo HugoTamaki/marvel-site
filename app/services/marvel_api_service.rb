@@ -9,7 +9,7 @@ class MarvelApiService
       loop do
         result = fetch_comics(offset, date)
 
-        break if result.empty?
+        break if result.blank?
 
         result.each do |comic_hash|
           comic = Comic.find_or_initialize_by(comic_id: comic_hash.dig('id'))

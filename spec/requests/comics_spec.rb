@@ -67,7 +67,7 @@ describe 'Comics', :type => :request do
       headers = { "ACCEPT" => "application/json" }
       post '/comics/favourite_comic.json', params: { comic: { comic_id: 121892 } }, headers: headers
 
-      expect(response.status).to eql(400)
+      expect(response.status).to eql(404)
       expect(response.body).to eql({'message' => 'Comic not found'}.to_json)
     end
 
